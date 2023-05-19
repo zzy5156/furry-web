@@ -1,0 +1,18 @@
+[
+    {
+        "index": 0,
+        "pic": "./pic/云狼.png",
+        "head": "云狼",
+        "info": "Error: Not Found",
+        "setting": "偶然遇到开设B猫心灵诊所的B猫，后续与其一同开办云狼与B猫崽子收容所；接受了机械化改造，可使用计算机接管身体；对计算机略有了解。现已离开崽子收容所。<br/>特点：特别会写bug",
+        "background": "Error: Not Found"
+    },
+    {
+        "index": 1,
+        "pic": "./pic/云笠.jpg",
+        "head": "云笠",
+        "info": "Error: Not Found",
+        "setting": "B猫收容的崽子之一，拥有计算机天赋，同时深得云狼喜爱，因此作为云狼的助理。云狼也允许云笠接管他的身体。现已离开崽子收容所。",
+        "background": "Error: Not Found"
+    }
+]

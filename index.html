@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.80.0">
+  <title>User profile of CloudWolf and YunLi</title>
+
+
+
+  <!-- Bootstrap core CSS -->
+  <link href="./prefix/css/bootstrap.min.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="./prefix/js/axios.min.js"></script>
+
+
+  <style>
+    .bodyWidth {
+      min-width: 1000px;
+    }
+	
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .fadeOut {
+      -webkit-animation-name: fade;
+      -webkit-animation-duration: 1.5s;
+      animation-name: fade;
+      animation-duration: 1.5s;
+      animation-fill-mode: forwards;
+    }
+    
+    .fadeIn {
+      -webkit-animation-name: fade;
+      -webkit-animation-duration: 1.5s;
+      animation-name: fadeIn;
+      animation-duration: 1.5s;
+    }
+
+    @-webkit-keyframes fade {
+      from {
+        opacity: 1
+      }
+
+      to {
+        opacity: 0
+      }
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 1
+      }
+
+      to {
+        opacity: 0
+      }
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link href="./prefix/css/carousel.css" rel="stylesheet">
+</head>
+
+<body class="bodyWidth">
+
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">User profile of CloudWolf and YunLi</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#"></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="fadeIn fixed-bottom" id="loadingBar">
+    <div class="ml-3 mr-3 mb-1 mt-1 align-items-center d-flex">
+      <strong>正在加载图片...</strong>
+      <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <template id="headPic">
+    <div class="carousel-item">
+      <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img"
+        aria-label=" :  " preserveAspectRatio="xMidYMid slice" focusable="false">
+        <title> </title>
+        <filter id="blurPic">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="30" />
+        </filter>
+        <!-- <rect width="100%" height="100%" fill="#777"/> -->
+        <image y="-20%" :xlink:href="content.pic" width="100%" filter="url(#blurPic)" :id="'headPicBlur' + index">
+        </image>
+        <rect width="100%" height="100%" fill="#777" opacity="0.1" />
+        <image x="10%" y="10%" :xlink:href="content.pic" height="80%" class="rounded" :id="'headPic' + index">
+        </image>
+      </svg>
+      <div class="container">
+        <div class="carousel-caption text-right">
+          <h1 class="bg-secondary text-white d-inline-flex rounded p-1">{{content.head}}</h1>
+          <br />
+          <p class="bg-secondary text-white d-inline-flex rounded p-1">{{content.info}}</p>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="post">
+    <div>
+      <hr v-if="index !== 0" class="featurette-divider">
+
+      <div class="row featurette">
+        <div :class="[{'order-md-2 text-right': (index % 2 == 0)}, 'col-md-7']">
+          <h2 class="featurette-heading">{{content.head}}</h2>
+          <p class="lead">画师：{{content.info}}</p>
+          <a data-toggle="modal" class="btn btn btn-secondary" :data-target="'#dSetting'+content.index" href="">设定</a>
+          <a data-toggle="modal" class="btn btn btn-secondary" :data-target="'#dBack'+content.index" href="">背景</a>
+        </div>
+        <br />
+        <div class="col-md-5">
+          <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+            :src="content.pic" :id="'picItem' + index"></img>
+        </div>
+      </div>
+
+      <div :id="'dSetting'+content.index" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <button class="close" data-dismiss="modal">
+                <span>×</span>
+              </button>
+            </div>
+            <div class="modal-title">
+              <h1 class="text-center text-dark">{{content.head}} 设定</h1>
+            </div>
+            <div class="modal-body">
+              <p v-html="content.setting"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div :id="'dBack'+content.index" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <button class="close" data-dismiss="modal">
+                <span>×</span>
+              </button>
+            </div>
+            <div class="modal-title">
+              <h1 class="text-center text-dark">{{content.head}} 背景</h1>
+            </div>
+            <div class="modal-body">
+              <p v-html="content.background"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </template>
+
+  <main role="main">
+    <div id="all">
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" v-for="(item,index) of head_list" v-bind:data-slide-to="index"
+            :class="[{'active': (index == 0)}]"></li>
+          <!-- <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li> -->
+        </ol>
+        <div class="carousel-inner">
+          <cpn v-for="(item,index) of head_list" :class="[{'active': (index == 0)}]" :content="item" :index="index">
+          </cpn>
+        </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+      
+      <div class="container marketing">
+
+        <post-list v-for="(item,index) of post_list" :content="item" :index="index"></post-list>
+        <hr class="featurette-divider">
+
+      </div><!-- /.container -->
+
+
+      <!-- FOOTER -->
+      <footer class="container">
+        <p class="float-right"><a href="#">返回顶部</a></p>
+        <p>&copy; 2023 - NOW CloudWolf Technology.</p>
+      </footer>
+    </div>
+  </main>
+
+
+  <script src="./prefix/js/jquery-3.5.1.slim.min.js"></script>
+  <script>window.jQuery || document.write('<script src="./prefix/js/jquery.slim.min.js"><\/script>')</script>
+  <script src="./prefix/js/bootstrap.bundle.min.js"></script>
+
+  <script type="text/javascript">
+    window.onload = function () {
+      var itemPics = document.getElementsByTagName('img');
+      var picLoad = setInterval(() => {
+        var loadFinished = true;
+        for (var i = 0; i < itemPics.length; i++) {
+          if (!itemPics[i].complete) {
+            loadFinished = false;
+            break;
+          }
+        }
+        if (loadFinished) {
+          document.getElementById("loadingBar").classList.remove("fadeIn");
+          document.getElementById("loadingBar").classList.add("fadeOut");
+          // setInterval(document.getElementById("loadingBar").style.display = "none", 5000);
+          clearInterval(picLoad);
+        }
+      }, 2000);
+    }
+  </script>
+
+  <script>
+    Vue.component('cpn', {
+      props: ['content', 'index'],
+      template: '#headPic'
+    })
+    Vue.component('post-list', {
+      props: ['content', 'index'],
+      template: '#post'
+    })
+    let total = new Vue({
+      el: '#all',
+      data: {
+        total: 0,
+        head_list: [],
+        post_list: []
+      },
+      created() {
+        fetch('./json/head.json')
+          .then(response => response.json())
+          .then(json => {
+            this.head_list = json
+          })
+        fetch('./json/details.json')
+          .then(response => response.json())
+          .then(json => {
+            this.post_list = json
+          })
+      }
+    })
+  </script>
+</body>
+
+</html>

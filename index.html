@@ -196,6 +196,16 @@
     </div>
 
   </template>
+  
+  <template id="personal">
+    <div class="jumbotron">
+      <h1 class="display-4">{{ content.site }}</h1>
+      <p class="lead">{{ content.head }}</p>
+      <hr class="my-4">
+      <p>{{ content.info }}</p>
+      <a class="btn btn-primary btn-lg" :href="content.href" target="_blank" role="button">访问</a>
+    </div>
+  </template>
 
   <main role="main">
     <div id="all">
@@ -223,8 +233,15 @@
       
       <div class="container marketing">
 
+        <div class="alert alert-secondary" role="alert">
+          Current OCs
+        </div>
         <post-list v-for="(item,index) of post_list" :content="item" :index="index"></post-list>
         <hr class="featurette-divider">
+        <div class="alert alert-secondary" role="alert">
+          Personal Links
+        </div>
+        <personal-list v-for="(item,index) of personal_list" :content="item" :index="index"></personal-list>
 
       </div><!-- /.container -->
 
@@ -272,12 +289,17 @@
       props: ['content', 'index'],
       template: '#post'
     })
+    Vue.component('personal-links', {
+      props: ['content', 'index'],
+      template: '#personal'
+    })
     let total = new Vue({
       el: '#all',
       data: {
         total: 0,
         head_list: [],
-        post_list: []
+        post_list: [],
+        personal_list: []
       },
       created() {
         fetch('./json/head.json')
@@ -289,6 +311,11 @@
           .then(response => response.json())
           .then(json => {
             this.post_list = json
+          })
+        fetch('./json/personal.json')
+          .then(response => response.json())
+          .then(json => {
+            this.personal_list = json
           })
       }
     })
